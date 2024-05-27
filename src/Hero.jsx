@@ -99,79 +99,84 @@ function Hero(props) {
   };
 
   return (
-    <div>
-      {isLoading ? <h1>Loading....</h1> : null}
-      <form className="filter-country">
-        <label htmlFor="searchCountry"></label>
-        <input
-          placeholder="Search for country"
-          type="text"
-          id="searchCountry"
-          value={searchCountry}
-          onChange={handleSearchChange}
-          style={styles}
-        />
+    <>
+      {isLoading ? (
+        <h1>Loading....</h1>
+      ) : (
+        <div>
+          <form className="filter-country">
+            <label htmlFor="searchCountry"></label>
+            <input
+              placeholder="Search for country"
+              type="text"
+              id="searchCountry"
+              value={searchCountry}
+              onChange={handleSearchChange}
+              style={styles}
+            />
 
-        <label htmlFor="region"></label>
-        <select
-          id="region"
-          value={regionFilter}
-          onChange={handleRegionChange}
-          style={styles}
-        >
-          <option value="">Search for region</option>
-          {regions.map((region, id) => (
-            <option value={region} key={id}>
-              {region}
-            </option>
-          ))}
-        </select>
-
-        {regionFilter && (
-          <>
-            <label htmlFor="subregion"></label>
+            <label htmlFor="region"></label>
             <select
-              id="subregion"
-              value={subregionFilter}
-              onChange={handleSubregionChange}
+              id="region"
+              value={regionFilter}
+              onChange={handleRegionChange}
               style={styles}
             >
-              <option value="">Search for subregion</option>
-              {subregions.map((subregion, id) => (
-                <option value={subregion} key={id}>
-                  {subregion}
+              <option value="">Search for region</option>
+              {regions.map((region, id) => (
+                <option value={region} key={id}>
+                  {region}
                 </option>
               ))}
             </select>
-          </>
-        )}
 
-        <label htmlFor="sortByPopulation"></label>
-        <select
-          id="sortByPopulation"
-          value={sortBy}
-          onChange={handleSortChange}
-          style={styles}
-        >
-          <option value="">Sort by Population</option>
-          <option value="pop-asc">Asc</option>
-          <option value="pop-desc">Desc</option>
-        </select>
+            {regionFilter && (
+              <>
+                <label htmlFor="subregion"></label>
+                <select
+                  id="subregion"
+                  value={subregionFilter}
+                  onChange={handleSubregionChange}
+                  style={styles}
+                >
+                  <option value="">Search for subregion</option>
+                  {subregions.map((subregion, id) => (
+                    <option value={subregion} key={id}>
+                      {subregion}
+                    </option>
+                  ))}
+                </select>
+              </>
+            )}
 
-        <label htmlFor="sortByArea"></label>
-        <select
-          id="sortByArea"
-          value={sortBy}
-          onChange={handleSortChange}
-          style={styles}
-        >
-          <option value="">Sort by Area</option>
-          <option value="area-asc">Asc</option>
-          <option value="area-desc">Desc</option>
-        </select>
-      </form>
-      <div className="country-card">{countryCard}</div>
-    </div>
+            <label htmlFor="sortByPopulation"></label>
+            <select
+              id="sortByPopulation"
+              value={sortBy}
+              onChange={handleSortChange}
+              style={styles}
+            >
+              <option value="">Sort by Population</option>
+              <option value="pop-asc">Asc</option>
+              <option value="pop-desc">Desc</option>
+            </select>
+
+            <label htmlFor="sortByArea"></label>
+            <select
+              id="sortByArea"
+              value={sortBy}
+              onChange={handleSortChange}
+              style={styles}
+            >
+              <option value="">Sort by Area</option>
+              <option value="area-asc">Asc</option>
+              <option value="area-desc">Desc</option>
+            </select>
+          </form>
+          <div className="country-card">{countryCard}</div>
+        </div>
+      )}
+    </>
   );
 }
 
