@@ -31,6 +31,7 @@ a {
 
 .loading{
   width: 100%;
+  height: 70vh;
   margin-top: 30vh;
   font-size: 4rem;
   text-align: center;
@@ -50,6 +51,11 @@ a {
   font-weight: 400;
 }
 
+.main-section{
+  min-height: 87vh;
+  width: 100%;
+}
+
 .country-detail {
   display: flex;
   flex-direction: column;
@@ -63,7 +69,6 @@ a {
 
 .country-card {
   width: 100%;
-  /* max-width: 1200px; */
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 3.9rem;
@@ -81,7 +86,7 @@ a {
     padding: 0.25rem;
     margin-left: 0rem;
     border: none;
-    background-color: white;
+    /* background-color: white; */
     box-shadow: 0 0 0.5rem 0 rgba(0, 0, 0, 0.2);
     border-radius: 0.5rem;
   }
@@ -89,10 +94,15 @@ a {
   select {
     padding: 1rem 0.75rem;
     border: none;
-    background-color: white;
+    /* background-color: white; */
     box-shadow: 0 0 0.5rem 0 rgba(0, 0, 0, 0.2);
     border-radius: 0.5rem;
   }
+}
+
+.no-country{
+  font-size: 4rem;
+  width: 50rem;
 }
 
 
@@ -101,8 +111,8 @@ a {
   display: flex;
   flex-direction: column;
   gap: 5rem;
-  padding: 0 3rem;
-  padding-top: 5rem;
+  padding: 5rem 3rem 1rem 3rem;
+  /* padding-top: 5rem; */
   
   button{
     width: 10rem;
@@ -155,8 +165,7 @@ a {
   gap: 1rem;
   flex-wrap: wrap;
   button{
-    width: 4rem;;
-    background-color: white;
+    width: 10rem;;
     border: none;
     box-shadow: 0 0 0.5rem 0 rgba(0, 0, 0, 0.2);
   }

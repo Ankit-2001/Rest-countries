@@ -1,4 +1,10 @@
+import { useContext } from "react";
+import ThemeContext from "./ThemeContext";
+
+
 function CountryCardDetails(props) {
+
+  const {mode,setMode} = useContext(ThemeContext)
   const {
     img,
     countryName,
@@ -24,7 +30,7 @@ function CountryCardDetails(props) {
   let borderCountryCard =[];
   if(borderCountries){
     borderCountryCard = borderCountries.map((coutry) => {
-      return <button>{coutry}</button>;
+      return <button className={`${mode ? "light-dark" : "light"}`}>{coutry}</button>;
     });
   }
   
@@ -65,7 +71,7 @@ function CountryCardDetails(props) {
             </h4>
           </div>
         </div>
-        <h4 className="border-countries">Border Countries: {borderCountryCard.length > 0 ? borderCountryCard: <span>No countries</span>}</h4>
+        <h4 className="border-countries">Border Countries: {borderCountryCard.length > 0 ? borderCountryCard: <span>None</span>}</h4>
       </div>
     </div>
   );

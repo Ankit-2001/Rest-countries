@@ -3,11 +3,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons/faMagnifyingGlass";
 import Card from "./Card";
 import ThemeContext from "./ThemeContext";
+import data from './countries.json'
 
 function Hero(props) {
   const { mode, setMode } = useContext(ThemeContext);
 
-  const [countryData, setCountryData] = useState([]);
+  let [countryData, setCountryData] = useState([]);
   const [searchCountry, setSearchCountry] = useState("");
   const [regionFilter, setRegionFilter] = useState("");
   const [subregionFilter, setSubregionFilter] = useState("");
@@ -15,13 +16,11 @@ function Hero(props) {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    fetch("https://restcountries.com/v3.1/all")
-      .then((res) => res.json())
-      .then((data) => setCountryData(data))
-      .catch((err) => console.log(err))
-      .finally(() => {
-        setIsLoading(false);
-      });
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 1000);
+
+    setCountryData(data);
   }, []);
 
   const handleSearchChange = (event) => {
@@ -63,6 +62,18 @@ function Hero(props) {
     return true;
   });
 
+  //Get Regions
+  const regions = [...new Set(countryData.map((country) => country.region))];
+
+  // Get subregions for selected region
+  const subregions = [
+    ...new Set(
+      countryData
+        .filter((country) => country.region === regionFilter)
+        .map((country) => country.subregion)
+    ),
+  ];
+
   const sortedCountries = filteredCountries.sort((a, b) => {
     // Sort by population
     if (sortBy === "pop-desc") {
@@ -82,28 +93,21 @@ function Hero(props) {
     return 0;
   });
 
-  const countryCard = sortedCountries.map((country, id) => {
-    return <Card {...country} key={id} />;
-  });
-
-  //Get Regions
-  const regions = [...new Set(countryData.map((country) => country.region))];
-
-  // Get subregions for selected region
-  const subregions = [
-    ...new Set(
-      countryData
-        .filter((country) => country.region === regionFilter)
-        .map((country) => country.subregion)
-    ),
-  ];
+  let countryCard = [];
+  if(sortedCountries.length > 0){
+    countryCard = sortedCountries.map((country, id) => {
+      return <Card {...country} key={id} />;
+    });
+  }else{
+    countryCard = <h2 className="no-country">No country found....</h2>
+  }
 
   return (
     <>
       {isLoading ? (
         <h2 className="loading">Loading....</h2>
       ) : (
-        <div>
+        <div className={`${mode ? "more-dark" : "light"} main-section`}>
           <form className="filter-country">
             {/* <label htmlFor="searchCountry"></label> */}
             <input
@@ -112,6 +116,7 @@ function Hero(props) {
               id="searchCountry"
               value={searchCountry}
               onChange={handleSearchChange}
+              className={`${mode ? "dark" : "light"}`}
             />
 
             {/* <label htmlFor="region"></label> */}
@@ -119,6 +124,7 @@ function Hero(props) {
               id="region"
               value={regionFilter}
               onChange={handleRegionChange}
+              className={`${mode ? "dark" : "light"}`}
             >
               <option value="">Search for region</option>
               {regions.map((region, id) => (
@@ -133,6 +139,7 @@ function Hero(props) {
               id="subregion"
               value={subregionFilter}
               onChange={handleSubregionChange}
+              className={`${mode ? "dark" : "light"}`}
             >
               <option value="">Search for subregion</option>
               {subregions.map((subregion, id) => (
@@ -143,7 +150,12 @@ function Hero(props) {
             </select>
 
             {/* <label htmlFor="sort"></label> */}
-            <select id="sort" value={sortBy} onChange={handleSortChange}>
+            <select
+              id="sort"
+              value={sortBy}
+              onChange={handleSortChange}
+              className={`${mode ? "dark" : "light"}`}
+            >
               <option value="">Sort by</option>
               <option value="pop-asc">Population(Ascending)</option>
               <option value="pop-desc">Population(Descending)</option>

@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import CountryCardDetails from "./CountryCardDetails";
 import ThemeContext from "./ThemeContext";
+import alldata from "./countries.json";
 
 function CountryDetails() {
   const { mode, setMode } = useContext(ThemeContext);
@@ -10,11 +11,15 @@ function CountryDetails() {
   const [detail, setDetail] = useState([]);
   const { id } = useParams();
   useEffect(() => {
-    fetch(`https://restcountries.com/v3.1/name/${id}?fullText=true`)
-      .then((res) => res.json())
-      .then((data) => setDetail(data))
-      .catch((err) => console.log(err))
-      .finally(() => setIsLoading(false));
+    let wantedCountry = alldata.find(
+      (countryData) => countryData.name.official === id
+    );
+    console.log(wantedCountry);
+    setDetail([wantedCountry]);
+
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 500);
   }, []);
 
   const countryCard = detail.map((data) => {
@@ -41,7 +46,13 @@ function CountryDetails() {
     }
 
     const capital = data.capital;
-    const borderCountries = data.borders;
+    const borderCountries = data.borders?.map((borderCode) => {
+      let countryFullName = alldata.find((country) => {
+        return country.cca3 === borderCode;
+      });
+      return countryFullName.name.common;
+    });
+
     const img = data.flags;
     const countryData = {
       img,
