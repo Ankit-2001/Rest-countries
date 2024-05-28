@@ -1,7 +1,12 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons/faMagnifyingGlass";
 import Card from "./Card";
+import ThemeContext from "./ThemeContext";
 
 function Hero(props) {
+  const { mode, setMode } = useContext(ThemeContext);
+
   const [countryData, setCountryData] = useState([]);
   const [searchCountry, setSearchCountry] = useState("");
   const [regionFilter, setRegionFilter] = useState("");
@@ -93,34 +98,27 @@ function Hero(props) {
     ),
   ];
 
-  const styles = {
-    color: props.mode ? "#FFFFFF" : "#000000",
-    backgroundColor: props.mode ? "hsl(209, 23%, 22%)" : "#FFFFFF",
-  };
-
   return (
     <>
       {isLoading ? (
-        <h1>Loading....</h1>
+        <h2 className="loading">Loading....</h2>
       ) : (
         <div>
           <form className="filter-country">
-            <label htmlFor="searchCountry"></label>
+            {/* <label htmlFor="searchCountry"></label> */}
             <input
               placeholder="Search for country"
               type="text"
               id="searchCountry"
               value={searchCountry}
               onChange={handleSearchChange}
-              style={styles}
             />
 
-            <label htmlFor="region"></label>
+            {/* <label htmlFor="region"></label> */}
             <select
               id="region"
               value={regionFilter}
               onChange={handleRegionChange}
-              style={styles}
             >
               <option value="">Search for region</option>
               {regions.map((region, id) => (
@@ -130,47 +128,27 @@ function Hero(props) {
               ))}
             </select>
 
-            {regionFilter && (
-              <>
-                <label htmlFor="subregion"></label>
-                <select
-                  id="subregion"
-                  value={subregionFilter}
-                  onChange={handleSubregionChange}
-                  style={styles}
-                >
-                  <option value="">Search for subregion</option>
-                  {subregions.map((subregion, id) => (
-                    <option value={subregion} key={id}>
-                      {subregion}
-                    </option>
-                  ))}
-                </select>
-              </>
-            )}
-
-            <label htmlFor="sortByPopulation"></label>
+            {/* <label htmlFor="subregion"></label> */}
             <select
-              id="sortByPopulation"
-              value={sortBy}
-              onChange={handleSortChange}
-              style={styles}
+              id="subregion"
+              value={subregionFilter}
+              onChange={handleSubregionChange}
             >
-              <option value="">Sort by Population</option>
-              <option value="pop-asc">Asc</option>
-              <option value="pop-desc">Desc</option>
+              <option value="">Search for subregion</option>
+              {subregions.map((subregion, id) => (
+                <option value={subregion} key={id}>
+                  {subregion}
+                </option>
+              ))}
             </select>
 
-            <label htmlFor="sortByArea"></label>
-            <select
-              id="sortByArea"
-              value={sortBy}
-              onChange={handleSortChange}
-              style={styles}
-            >
-              <option value="">Sort by Area</option>
-              <option value="area-asc">Asc</option>
-              <option value="area-desc">Desc</option>
+            {/* <label htmlFor="sort"></label> */}
+            <select id="sort" value={sortBy} onChange={handleSortChange}>
+              <option value="">Sort by</option>
+              <option value="pop-asc">Population(Ascending)</option>
+              <option value="pop-desc">Population(Descending)</option>
+              <option value="area-asc">Area(Ascending)</option>
+              <option value="area-desc">Area(Descending)</option>
             </select>
           </form>
           <div className="country-card">{countryCard}</div>
